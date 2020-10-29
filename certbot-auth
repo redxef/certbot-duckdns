@@ -8,7 +8,8 @@ result="$(printf "url=$baseurl\n" "$DUCKDNS_DOMAIN" "$DUCKDNS_TOKEN" "$CERTBOT_V
 # give some time for the record to update
 echo "waiting for txt record" >&2
 for i in $(seq 0 60); do
-    val="$(dig -t txt redxef2.duckdns.org | grep -A 1 ';; ANSWER SECTION:' | tail -n1 | sed -n 's/.*"\([^"]*\)".*/\1/p')"
+    val="$(nslookup -type=TXT "$DUCKDNS_DOMAIN.duckdns.org" | grep "$DUCKDNS_DOMAIN.duckdns.org.*text.*=.*" | sed -n 's/.*"\([^"]*\)".*/\1/p')"
+    echo "$val" >&2
     test "$val" = "$CERTBOT_VALIDATION" && break
     sleep 10
 done
