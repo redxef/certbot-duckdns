@@ -1,9 +1,15 @@
 #!/usr/bin/env sh
 
-set -x
+echo "certbot txt record: $CERTBOT_VALIDATION" >&2
 
 baseurl='https://www.duckdns.org/update?domains=%s&token=%s&txt=%s'
 result="$(printf "url=$baseurl\n" "$DUCKDNS_DOMAIN" "$DUCKDNS_TOKEN" "$CERTBOT_VALIDATION" | curl -K -)"
+
 # give some time for the record to update
-sleep 300
+echo "waiting for txt record" >&2
+for i in $(seq 0 60); do
+    val="$(dig -t txt redxef2.duckdns.org | grep -A 1 ';; ANSWER SECTION:' | tail -n1 | sed -n 's/.*"\([^"]*\)".*/\1/p')"
+    test "$val" = "$CERTBOT_VALIDATION" && break
+    sleep 10
+done
 test "$result" = 'OK'
