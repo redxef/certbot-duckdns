@@ -1,10 +1,13 @@
 #!/usr/bin/env sh
 
 certbot certonly --manual --preferred-challenges dns-01 --keep \
-    --email="$LE_EMAIL" --domains="$DUCKDNS_DOMAIN.duckdns.org,*.$DUCKDNS_DOMAIN.duckdns.org" \
+    --email="$LE_EMAIL" --domains="$DUCKDNS_DOMAIN.duckdns.org" \
     --agree-tos --no-eff-email --manual-public-ip-logging-ok \
-    --manual-auth-hook=certbot-auth --manual-cleanup-hook=certbot-cleanup
+    --manual-auth-hook=certbot-auth --manual-cleanup-hook=certbot-cleanup \
+    "$@"
 
-logfile=/var/log/duckdns.log
-baseurl='https://www.duckdns.org/update?domains=%s&token=%s&txt=%s'
-printf "url=$baseurl\n" "$DUCKDNS_DOMAIN" "$DUCKDNS_TOKEN" "$txt" | curl -o "$logfile" -K -
+certbot certonly --manual --preferred-challenges dns-01 --keep \
+    --email="$LE_EMAIL" --domains="*.$DUCKDNS_DOMAIN.duckdns.org" \
+    --agree-tos --no-eff-email --manual-public-ip-logging-ok \
+    --manual-auth-hook=certbot-auth --manual-cleanup-hook=certbot-cleanup \
+    "$@"
