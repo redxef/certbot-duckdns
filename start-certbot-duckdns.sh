@@ -1,11 +1,31 @@
 #!/usr/bin/env sh
 
-dhparamfile='/etc/letsencrypt/ssl-dhparams.pem'
-ssl_includefile='/etc/letsencrypt/options-ssl-nginx.conf'
+pids=""
 
-echo "Updating duckdns record"
-duckdns
-echo "Acquiering letsencrypt certificates"
-certbot-duckdns "$@"
+run_prog() {
+    "$@" &
+    pids="$! $pids"
+}
+
+trap_sig() {
+    printf '%s' "$pids" | while IFS= read -r pid; do
+        echo "pid=$pid"
+        kill -s $1 $pid
+    done
+}
+
+trap 'trap_sig TERM' SIGTERM
+
+# echo "Updating duckdns record"
+# duckdns
+
+# echo "Acquiering letsencrypt certificates"
+# certbot-duckdns "$@"
+
 echo "Starting crond"
-exec crond -f
+printf '*/5\t*\t*\t*\t*\trun-parts /etc/periodic/5min\n' >> /etc/crontabs/root
+printf '*\t*/12\t*\t*\t*\trun-parts /etc/periodic/12h\n' >> /etc/crontabs/root
+crontab -l
+
+run_prog crond -l 0 -fc /etc/crontabs/
+wait $pids

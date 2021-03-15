@@ -21,5 +21,5 @@ under the following locations respectively:
 ## ENV Variables
 
 - DUCKDNS_DOMAIN: The domain to update, ex: DUCKDNS_DOMAIN=redxef for redxef.duckdns.org
-- DUCKDNS_TOKEN: Your duckdns api tokne
+- DUCKDNS_TOKEN: Your duckdns api token
 - LE_EMAIL: Your email for certificate related notifications
