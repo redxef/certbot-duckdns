@@ -11,3 +11,7 @@ certbot certonly --manual --preferred-challenges dns-01 --keep \
     --agree-tos --no-eff-email --manual-public-ip-logging-ok \
     --manual-auth-hook=certbot-auth --manual-cleanup-hook=certbot-cleanup \
     "$@"
+
+if [ -n "$COMMAND" ]; then
+    /usr/bin/env sh -c "$COMMAND"
+fi
