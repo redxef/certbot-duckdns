@@ -12,7 +12,7 @@ one for the domain and one wildcard cert.
 `DUCKDNS_DOMAIN=redxef`
 
 Yields 2 certificates, the first being for redxef.duckdns.org and the
-second being for *.redxef.duckdns.org. These certificates can be found
+second being for \*.redxef.duckdns.org. These certificates can be found
 under the following locations respectively:
 
 - `/etc/letsencrypt/live/redxef.duckdns.org/`
@@ -23,3 +23,7 @@ under the following locations respectively:
 - DUCKDNS_DOMAIN: The domain to update, ex: DUCKDNS_DOMAIN=redxef for redxef.duckdns.org
 - DUCKDNS_TOKEN: Your duckdns api token
 - LE_EMAIL: Your email for certificate related notifications
+
+## SOURCE
+
+[gitea.redxef.at/redxef/certbot-duckdns](https://gitea.redxef.at/redxef/certbot-duckdns)
