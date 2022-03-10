@@ -9,6 +9,14 @@ one for the domain and one wildcard cert.
 
 **Example:**
 
+```
+docker run --rm \
+    -e DUCKDNS_DOMAIN=redxef \
+    -e DUCKDNS_TOKEN=<your ddns token> \
+    -e LE_EMAIL=noreply@example.com \
+    redxef/certbot-duckdns
+```
+
 `DUCKDNS_DOMAIN=redxef`
 
 Yields 2 certificates, the first being for redxef.duckdns.org and the
