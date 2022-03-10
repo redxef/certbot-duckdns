@@ -1,9 +1,7 @@
 FROM alpine:latest
 
-RUN apk add \
-        curl \
-        certbot \
-        openssl
+RUN apk add --no-cache --upgrade \
+        curl certbot openssl
 
 RUN mkdir -p /etc/periodic/12h \
     && mkdir -p /etc/periodic/5min
