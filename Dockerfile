@@ -9,5 +9,7 @@ RUN mkdir -p /etc/periodic/12h \
 COPY certbot-* duckdns start-certbot-duckdns.sh /usr/local/bin/
 COPY etc/periodic/ /etc/periodic/
 
+VOLUME /etc/letsencrypt/
+
 ENTRYPOINT [ "/bin/sh", "-c" ]
 CMD [ "duckdns; certbot-duckdns; start-certbot-duckdns.sh" ]
